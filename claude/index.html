@@ -31,6 +31,10 @@
     a.href = url;
     a.hidden = false;
     location.href = url;
+    // Claude アプリに切り替わってこのタブが裏に回ったら閉じる。開く確認の途中で閉じないよう、表示中は待つ
+    var closeTab = function () { window.close(); document.getElementById("msg").textContent = "Claude を開きました。このタブは閉じて大丈夫です。"; };
+    document.addEventListener("visibilitychange", function () { if (document.hidden) setTimeout(closeTab, 300); });
+    window.addEventListener("blur", function () { setTimeout(closeTab, 300); });
   } else {
     document.getElementById("msg").textContent = "開くセッションが指定されていません。";
   }
