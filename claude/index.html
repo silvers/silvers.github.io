@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Claude を開く</title>
+<style>
+  body { font-family: -apple-system, system-ui, sans-serif; margin: 3rem 1rem; text-align: center; color: #222; background: #fff; }
+  a { display: inline-block; margin-top: 1rem; padding: .6rem 1.2rem; border-radius: .5rem; background: #d97757; color: #fff; text-decoration: none; }
+  @media (prefers-color-scheme: dark) { body { color: #eee; background: #1a1a1a; } }
+</style>
+</head>
+<body>
+<p id="msg">Claude アプリを開いています…</p>
+<p><a id="go" href="#" hidden>Claude で開く</a></p>
+<script>
+  // Notion は claude:// のリンクを開かないので、https のこのページで受けて Claude アプリへ渡す
+  var p = new URLSearchParams(location.search);
+  var task = p.get("task") || "";
+  var session = p.get("session") || "";
+  var url = "";
+  if (/^local_[0-9a-f-]{36}$/.test(session)) {
+    url = "claude://claude.ai/epitaxy/" + session;
+  } else if (/^[0-9a-f]{32}$/.test(task)) {
+    url = "claude://code/new?folder=" + encodeURIComponent("/Users/silvers/ai-assistant/partner") +
+          "&q=" + encodeURIComponent("task " + task);
+  }
+  if (url) {
+    var a = document.getElementById("go");
+    a.href = url;
+    a.hidden = false;
+    location.href = url;
+  } else {
+    document.getElementById("msg").textContent = "開くセッションが指定されていません。";
+  }
+</script>
+</body>
+</html>
