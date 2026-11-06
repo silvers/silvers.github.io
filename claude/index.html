@@ -19,12 +19,20 @@
   var p = new URLSearchParams(location.search);
   var task = (p.get("task") || "").replace(/-/g, "");
   var session = p.get("session") || "";
+  // 任意の文を渡せるとリンク経由でセッションに指示を流し込めるので、決まった一言だけを許す
+  var starts = { day: "おはよう", verbalize: "言語化やろう" };
+  var start = Object.prototype.hasOwnProperty.call(starts, p.get("start")) ? starts[p.get("start")] : "";
   var url = "";
+  var newSession = function (q) {
+    return "claude://code/new?folder=" + encodeURIComponent("/Users/silvers/ai-assistant/partner") +
+           "&q=" + encodeURIComponent(q);
+  };
   if (/^local_[0-9a-f-]{36}$/.test(session)) {
     url = "claude://claude.ai/epitaxy/" + session;
   } else if (/^[0-9a-f]{32}$/.test(task)) {
-    url = "claude://code/new?folder=" + encodeURIComponent("/Users/silvers/ai-assistant/partner") +
-          "&q=" + encodeURIComponent("task " + task);
+    url = newSession("task " + task);
+  } else if (start) {
+    url = newSession(start);
   }
   if (url) {
     var a = document.getElementById("go");
