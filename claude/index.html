@@ -17,7 +17,7 @@
 <script>
   // Notion は claude:// のリンクを開かないので、https のこのページで受けて Claude アプリへ渡す
   var p = new URLSearchParams(location.search);
-  var task = p.get("task") || "";
+  var task = (p.get("task") || "").replace(/-/g, "");
   var session = p.get("session") || "";
   var url = "";
   if (/^local_[0-9a-f-]{36}$/.test(session)) {
