@@ -20,7 +20,7 @@
   var task = (p.get("task") || "").replace(/-/g, "");
   var session = p.get("session") || "";
   // 任意の文を渡せるとリンク経由でセッションに指示を流し込めるので、決まった一言だけを許す
-  var starts = { day: "おはよう", verbalize: "言語化やろう", health: "健康の振り返りやろう" };
+  var starts = { day: "おはよう", verbalize: "言語化やろう", health: "健康の振り返りやろう", reader: "Reader やろう" };
   var start = Object.prototype.hasOwnProperty.call(starts, p.get("start")) ? starts[p.get("start")] : "";
   var url = "";
   var newSession = function (q) {
